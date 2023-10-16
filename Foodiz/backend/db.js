@@ -9,9 +9,9 @@ module.exports = function (callback) {
         else {
             // var database =
             console.log("connected to mongo")
-            const foodCollection = await mongoose.connection.db.collection("food_items");
+            const foodCollection = await mongoose.connection.db.collection("food-items");
             foodCollection.find({}).toArray(async function (err, data) {
-                const categoryCollection = await mongoose.connection.db.collection("Categories");
+                const categoryCollection = await mongoose.connection.db.collection("foodCategory");
                 categoryCollection.find({}).toArray(async function (err, Catdata) {
                     callback(err, data, Catdata);
 
