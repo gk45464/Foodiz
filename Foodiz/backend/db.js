@@ -1,7 +1,10 @@
+
+const dotenv = require("dotenv")
 const mongoose = require('mongoose')
+
+dotenv.config({path: './.env'});
 // const mongoDbClient = require("mongodb").MongoClient
-const mongoURI = 'mongodb://rjgovinda1920:G1o2v3i4@ac-r7hfxeu-shard-00-00.3exylqp.mongodb.net:27017,ac-r7hfxeu-shard-00-01.3exylqp.mongodb.net:27017,ac-r7hfxeu-shard-00-02.3exylqp.mongodb.net:27017/GoFood?ssl=true&replicaSet=atlas-mix1n4-shard-0&authSource=admin&retryWrites=true&w=majority'
-// mongodb://<username>:<password>@merncluster-shard-00-00.d1d4z.mongodb.net:27017,merncluster-shard-00-01.d1d4z.mongodb.net:27017,merncluster-shard-00-02.d1d4z.mongodb.net:27017/?ssl=true&replicaSet=atlas-eusy5p-shard-0&authSource=admin&retryWrites=true&w=majority
+const mongoURI =process.env.DATABASE; 
 module.exports = function (callback) {
     mongoose.connect(mongoURI, { useNewUrlParser: true }, async (err, result) => {
         // mongoDbClient.connect(mongoURI, { useNewUrlParser: true }, async(err, result) => {

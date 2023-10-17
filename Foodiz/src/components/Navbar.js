@@ -25,7 +25,7 @@ export default function Navbar(props) {
     const items = useCart();
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-light position-sticky"
+            <nav className="navbar navbar-expand-lg navbar-dark bg- position-sticky"
                 style={{ boxShadow: "0px 10px 20px black", filter: 'blur(20)', position: "fixed", zIndex: "10", width: "100%" }}>
                 <div className="container-fluid">
                     <Link className="navbar-brand fs-1 fst-italic" to="/">Foodiz</Link>

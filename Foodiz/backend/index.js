@@ -5,10 +5,12 @@ global.foodData = require('./db')(function call(err, data, CatData) {
   global.foodData = data;
   global.foodCategory = CatData;
 })
-
+const dotenv = require("dotenv")
 const express = require('express')
 const app = express()
 const port = 5000
+
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
