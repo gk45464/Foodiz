@@ -8,6 +8,16 @@ var jwt = require('jsonwebtoken');
 const axios = require('axios')
 const fetch = require('../middleware/fetchdetails');
 const jwtSecret = "HaHa"
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+    service:"gmail",
+    auth:{
+        user:"rjgovinda1920@gmail.com",
+        pass:"ppmv jgxr pegz uzex"
+
+    }
+})
 // var foodItems= require('../index').foodData;
 // require("../index")
 //Creating a user and storing data to MongoDB Atlas, No Login Requiered
@@ -193,5 +203,94 @@ router.post('/myOrderData', async (req, res) => {
     
 
 });
+
+router.post("/sendpasswordLink", async(req,res)=>{
+    console.log(req.body);
+
+    const {email} = req.body;
+    if(!email){
+        res.status(401).json({status:400,message:"Enter your email"})
+    }
+    try{
+        const userfind = await User.findOne({email:email});
+        console.log("userfind",userfind);
+
+       //Token generate for reset password
+        
+       const token = jwt.sign({_id:userfind._id},jwtSecret,{
+            expiresIn:"120s"
+        });
+        
+        const setusertoken  = await User.findByIdAndUpdate({_id:userfind._id},{verifytoken:token},{new:true});
+        if(setusertoken){
+            const mailOptions = {
+                from:"rjgovinda1920@gmail.com",
+                to:email,
+                subject:"Sending email for password reset",
+                text:`This link Valid for 2 Minutes http://localhost:3000/resetPassword/${userfind.id}/${setusertoken.verifytoken}`
+            }
+
+            transporter.sendMail(mailOptions,(error,info)=>{
+                if(error){
+                    console.log("error",error);
+                    res.status(401).json({status:401,message:"email not sent"})
+                }
+                else{
+                    consloe.log("Email sent",info.response);
+                    res.status(201).json({status:201,message:"email send succesfully"})
+                }
+            })
+
+        }
+
+
+
+    }catch(error){
+        res.status(401).json({status:401,message:"Invalid Email"});
+    }
+})
+
+//verify user for forgot password time
+
+router.get("/ResetPassword/:id/:token",async(req,res) =>{
+    const {id,token} = req.params;
+    try{
+    const validuser = await User.findOne({_id:id,verifytoken:token});
+    const verifyToken = jwt.verify(token,jwtSecret);
+    if(validuser && verifyToken._id){
+        res.status(201).json({status:201,validuser})
+    }else{
+        res.status(401).json({status:401, message:"user does not exits"})
+    }
+
+    }catch(error){
+
+    }
+});
+//change password
+
+router.post("/:id/:token",async(req,res) =>{
+    const{id,token} = req.params;
+    const{password} = req.body;
+
+    try{
+        const validuser = await User.findOne({_id:id,verifytoken:token});
+        const verifyToken = jwt.verify(token,jwtSecret);
+
+        if(validuser && verifyToken._id){
+         const newpassword = await bcrypt.hash(password,12);
+
+         const setnewuserpass = await User.findByIdAndUpdate({_id:id},{password:newpassword})
+
+         setnewuserpass.save();
+         res.status(201).json({status:201,setnewuserpass})
+        }
+        else{
+            res.status(401).json({status:401, message:"user does not exits"})
+        }
+    }catch(error){
+    res.status(401).json({status:401, message:"user does not exits"})
+    }
+})
 
 module.exports = router

@@ -16,6 +16,8 @@ import Login from './screens/Login';
 import Signup from './screens/Signup';
 import { CartProvider } from './components/ContextReducer';
 import MyOrder from './screens/MyOrder';
+import ForgotPassword from './screens/ForgotPassword';
+import ResetPassword from './screens/ResetPassword';
 
 
 function App() {
@@ -28,6 +30,9 @@ function App() {
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
             <Route exact path="/myorder" element={<MyOrder />} />
+            <Route exact path="/ForgotPassword" element={<ForgotPassword />} />
+            <Route exact path="/ResetPassword/:id/:token" element={<ResetPassword />} />
+
           </Routes>
         </div>
       </Router>

@@ -51,8 +51,9 @@ export default function Login() {
             <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
             <input type="password" className="form-control" value={credentials.password} onChange={onChange} name='password' />
           </div>
-          <button type="submit" className="m-3 btn bg-light">Submit</button>
-          <Link to="/signup" className="m-3 mx-1 btn btn-danger">New User</Link>
+          <button type="submit" className="m-3 btn bg-success">Submit</button>
+          <Link to="/signup" className="m-3  btn btn-success">New User</Link>
+          <Link to="/ForgotPassword" className="m-3 mx-1 btn btn-danger">Forgot Password</Link>
         </form>
 
       </div>

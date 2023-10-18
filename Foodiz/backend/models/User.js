@@ -24,6 +24,9 @@ const UserSchema = new Schema({
         type:Date,
         default:Date.now
     },
+    verifytoken:{
+        type:String,
+    }
 
   });
 
