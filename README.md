@@ -22,8 +22,8 @@ CRUD operations.
 
 
 Used React as a front-end framework and Nodejs
-, Express in backend, MongoDB for Database, for
-state management REDUX.
+, Express in backend, MongoDB for Database, 
+- used bootstrap for UI
 
 
 added functionality like user authentication by
